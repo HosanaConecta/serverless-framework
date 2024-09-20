@@ -1,0 +1,32 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: hosana
+# "app" enables Serverless Framework Dashboard features and sharing them with other Services.
+app: aprendendo-serverless
+# "service" is the name of this project. This will also be added to your AWS resource names.
+service: serverless-framework
+usedotenv: true
+
+provider:
+  name: aws
+  runtime: python3.12
+  environment:
+    OPENAI_API_KEY: ${env.OPENAI_API_KEY}
+
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - httpApi:
+          path: /
+          method: get
+
+  gpt:
+    handler: handler.gpt
+    events:
+      - httpApi:
+          path: /criando-cards
+          method: get
+
+plugins:
+  - serverless-python-requirements
+  - serverless-offline
